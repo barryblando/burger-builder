@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <style>
+    .div-parent {
+        width: 100%;
+        border: 3px solid #73AD21;
+        padding: 10px 0;
+    }
+    div.ex1 {
+        width: 500px;
+        max-width: 100%;
+        margin: auto;
+        border: 3px solid #73AD21;
+        box-sizing: border-box;
+    }
+
+    div.ex2 {
+        width: 100%;
+        max-width: 500px;
+        margin: auto;
+        border: 3px solid #73AD21;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+    </style>
+</head>
+<body>
+
+<div class="div-parent">
+	<div class="ex1">This div element has width: 500px;</div>
+	<br>
+
+	<div class="ex2">This div element has max-width: 500px;</div>
+</div>
+<p><strong>Tip:</strong><br> if width > max-width; let the browser use max-width.<br>
+if width < max-width; let the browser use width.!</p>
+
+</body>
+</html>
