@@ -1,6 +1,4 @@
-import React, { Component } from 'react';
-
-import Aux from '../../hoc/Aux';
+import React, { Component, Fragment } from 'react';
 
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
@@ -90,31 +88,46 @@ class BurgerBuilder extends Component {
     this.setState(prevState => ({ purchasing: !prevState.purchasing }))
   }
 
+  // -- Handle Order summary 'continue' clicked
+  purchaseContinueHandler = () => {
+    alert('You continue!');
+  }
+
   render() {
+    const { ingredients, purchasing, totalPrice, purchaseable } = this.state;
+
     const disabledInfo = {
-      ...this.state.ingredients,
+      ...ingredients,
     };
+
+    // mutate ingredients value to boolean and then pass object down to BuildControls
     for (let key in disabledInfo) {
       // check if true then disable the specific ingredient button, i.e { salad: true, meat: false, etc. }
       disabledInfo[key] = disabledInfo[key] <= 0;
     }
+
     return (
-      <Aux>
+      <Fragment>
         <Modal
-          show={this.state.purchasing}
+          show={purchasing}
           modalClosed={this.purchaseCancelHandler}>
-          <OrderSummary ingredients={this.state.ingredients} />
+          <OrderSummary
+            ingredients={ingredients}
+            price={totalPrice}
+            purchaseCanceled={this.purchaseCancelHandler}
+            purchaseContinued={this.purchaseContinueHandler}
+            />
         </Modal>
-        <Burger ingredients={this.state.ingredients} />
+        <Burger ingredients={ingredients} />
         <BuildControls
           ingredientAdded={this.addIngredientHandler}
           ingredientRemoved={this.removeIngredientHandler}
           disabled={disabledInfo}
-          purchaseable={this.state.purchaseable}
+          purchaseable={purchaseable}
           ordered={this.purchaseHandler}
-          price={this.state.totalPrice}
+          price={totalPrice}
         />
-      </Aux>
+      </Fragment>
     );
   }
 }
