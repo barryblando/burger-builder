@@ -1,36 +1,44 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, Component } from 'react'
 
 import Button from '../../UI/Button/Button';
 
-const orderSummary = props => {
-  const { ingredients, price, purchaseCanceled, purchaseContinued } = props;
+class OrderSummary extends Component {
 
-  const ingredientSummary = Object.keys(ingredients)
-    .map(igKey => {
-      return (
-        <li key={igKey}>
-          <span style={{ textTransform: 'capitalize' }}>{igKey}</span>: {ingredients[igKey]}
-        </li>
-      );
-    });
+  // Temporary, change back to stateless functional component
+  UNSAFE_componentWillUpdate() {
+    console.log('[OrderSummary] willUpdate');
+  }
 
-  return (
-    <Fragment>
-      <h3>Your Order</h3>
-      <p>A delicious burger with the following ingredients: </p>
-      <u>
-        {ingredientSummary}
-      </u>
-      <p><strong>Total Price: {price.toFixed(2)}</strong></p>
-      <p>Continue to Checkout?</p>
-      <Button
-        btnType="Danger"
-        clicked={purchaseCanceled}>CANCEL</Button>
-      <Button
-        btnType="Success"
-        clicked={purchaseContinued}>CONTINUE</Button>
-    </Fragment>
-  );
+  render() {
+    const { ingredients, price, purchaseCanceled, purchaseContinued } = this.props;
+
+    const ingredientSummary = Object.keys(ingredients)
+      .map(igKey => {
+        return (
+          <li key={igKey}>
+            <span style={{ textTransform: 'capitalize' }}>{igKey}</span>: {ingredients[igKey]}
+          </li>
+        );
+      });
+
+    return (
+      <Fragment>
+        <h3>Your Order</h3>
+        <p>A delicious burger with the following ingredients: </p>
+        <u>
+          {ingredientSummary}
+        </u>
+        <p><strong>Total Price: {price.toFixed(2)}</strong></p>
+        <p>Continue to Checkout?</p>
+        <Button
+          btnType="Danger"
+          clicked={purchaseCanceled}>CANCEL</Button>
+        <Button
+          btnType="Success"
+          clicked={purchaseContinued}>CONTINUE</Button>
+      </Fragment>
+    );
+  }
 };
 
-export default orderSummary;
+export default OrderSummary;
