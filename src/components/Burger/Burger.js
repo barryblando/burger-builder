@@ -4,7 +4,7 @@ import classes from './Burger.css';
 
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 
-const burger = ({ ingredients }) => {
+const renderBurger = ingredients => {
   // turn ingredients into an array of strings using Object.keys
   let transformedIngredients = Object.keys(ingredients)
     .map(igKey => {
@@ -32,6 +32,10 @@ const burger = ({ ingredients }) => {
       <BurgerIngredient type="bread-bottom" />
     </div>
   );
-};
+}
+
+// Burger: Debug Mode
+const burger = ({ ingredients }) => console.log(ingredients) || renderBurger(ingredients);
+
 
 export default burger;

@@ -27,7 +27,22 @@ if (!enoughDragonSpawned) {
   console.log('done');
 }
 
+function foo(x, y, z, w) {
+  console.log(x, y, z, w);
+}
 
+function bar(x = 2, ...args) {
+  return foo(x, 42, ...args);
+}
 
+const arr = [6, 5];
 
+console.log(bar(...arr));
 
+const ingredients = {};
+
+const param = ["salad", "1"]
+
+console.log(ingredients[param[0]] = param[1])
+
+console.log(ingredients);
