@@ -25,13 +25,15 @@ class BurgerBuilder extends Component {
     error: false,
   };
 
-  // componentDidMount get trigger after execution the of componentWillMount -> render from HOC withErrorHandler
+  // componentDidMount get trigger after execution of the componentWillMount -> render from HOC withErrorHandler
   componentDidMount() {
     // get all the ingredients from firebase
     axios.get('/ingredients.json')
       .then(response => {
-        // set the ingredients
-        this.setState({ ingredients: response.data });
+        // set the ingredients starting with salad
+        const { salad, bacon, cheese, meat } = response.data;
+        const ingredients = { salad, bacon, cheese, meat };
+        this.setState({ ingredients });
       })
       .catch(error => {
         // if can't retrieve endpoint then set error to true
@@ -48,7 +50,7 @@ class BurgerBuilder extends Component {
       .reduce((sum, el) => {
         return sum + el;
       }, 0)
-
+    // set true or false if condition is met or not
     this.setState({ purchaseable: sum > 0 });
   }
 
@@ -94,7 +96,7 @@ class BurgerBuilder extends Component {
 
   // -- Handle displaying modal when 'order now' clicked
   purchaseHandler = () => {
-    this.setState(prevState => ({ purchasing: !prevState.purchasing,  }));
+    this.setState(prevState => ({ purchasing: !prevState.purchasing }));
   }
 
   // -- Handle close modal if backdrop clicked --
@@ -104,34 +106,25 @@ class BurgerBuilder extends Component {
 
   // -- Handle Order summary 'continue' clicked
   purchaseContinueHandler = () => {
-    // alert('You continue!');
-    this.setState(prevState => ({ loading: !prevState.loading }));
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: 'Barry Blando',
-        address: {
-          street: 'Emerald St',
-          zipCode: '8000',
-          city: 'DVO',
-          country: 'PH',
-        },
-        email: 'test@test.com'
-      },
-      deliveryMethod: 'fastest',
-      paymentMethod: 'COD',
-    };
-    // endpoint to use in firebase should be .json
-    axios.post('/orders.json', order)
-      .then(response => {
-        // this.setState({ loading: false, purchasing: false });
-        this.setState(prevState => ({ loading: !prevState.loading, purchasing: !prevState.purchasing }));
-      })
-      .catch(error => {
-        // this.setState({ loading: false, purchasing: false });
-        this.setState(prevState => ({ loading: !prevState.loading, purchasing: !prevState.purchasing }));
-      });
+    const { history } = this.props;
+    const { ingredients, totalPrice } = this.state;
+    const queryParams = [];
+
+    // loop through property names using for in
+    for(let i in ingredients) {
+      // i = property names, so property name = property value
+      queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(ingredients[i]));
+    }
+
+    // add totalPrice as query parameter
+    queryParams.push('price=' + totalPrice);
+
+    // join w/ & sign
+    const queryString = queryParams.join('&');
+    history.push({
+      pathname: '/checkout',
+      search: '?' + queryString
+    });
   }
 
   render() {
