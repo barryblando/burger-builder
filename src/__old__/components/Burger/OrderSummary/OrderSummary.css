@@ -1,0 +1,6 @@
+.OrderCenter {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding-left: 1rem;
+}
