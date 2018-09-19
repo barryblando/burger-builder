@@ -8,10 +8,12 @@ const input = props => {
 
   const inputClasses = [classes.InputElement];
 
+  // TODO set class to invalid if invalid, shouldValidate, touched conditions are met
   if (props.invalid && props.shouldValidate && props.touched) {
     inputClasses.push(classes.Invalid);
   }
 
+  // TODO insert validation error if invalid, touched conditions are met
   if (props.invalid && props.touched) {
     validationError = <p className={classes.ValidationError}>Please enter a valid {props.valueType}</p>;
   }
@@ -55,6 +57,7 @@ const input = props => {
           onChange={props.changed}
         />;
   }
+
   return (
     <div className={classes.Input}>
       <label className={classes.Label}>{props.label}</label>

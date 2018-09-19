@@ -6,7 +6,7 @@ import Backdrop from '../Backdrop/Backdrop';
 
 class Modal extends Component {
 
-  // Prevent OrderSummary from updating when adding and removing
+  // TODO -- Prevent OrderSummary from updating when adding and removing
   // react only when show is true & props.children is different (OrderSummary / Spinner)
   // don't react on clicked listener
   shouldComponentUpdate(nextProps, nextState) {
