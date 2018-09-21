@@ -8,7 +8,7 @@ const input = props => {
 
   const inputClasses = [classes.InputElement];
 
-  // TODO set class to invalid if invalid, shouldValidate, touched conditions are met
+  // TODO set Invalid class to inputs if invalid, shouldValidate, touched conditions are true. Exceptions for drop down.
   if (props.invalid && props.shouldValidate && props.touched) {
     inputClasses.push(classes.Invalid);
   }
