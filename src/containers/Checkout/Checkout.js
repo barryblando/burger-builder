@@ -1,34 +1,11 @@
-import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import React, { Component, Fragment } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
-  // decode & set state encoded URI before rendering components to avoid ingredients null error
-  constructor(props) {
-    super(props);
-    // console.log('[Checkout] Constructor Props: ', props);
-    const { location } = props;
-    const query = new URLSearchParams(location.search)
-    const ingredients = {};
-    let price = 0;
-    // loop through query params using for of
-    for (let param of query.entries()) {
-      // check if param[0] is price
-      if (param[0] === 'price') {
-        price = param[1];
-      } else {
-        // ['salad', '1'], add them as property to empty ingredients object
-        ingredients[param[0]] = +param[1]
-      }
-    }
-
-    this.state = {
-      ingredients,
-      price
-    }
-  }
 
   checkoutCancelledHandler = () => {
     const { history } = this.props;
@@ -37,27 +14,42 @@ class Checkout extends Component {
 
   checkoutContinuedHandler = () => {
     const { history } = this.props;
-    // replace url & render Contact Data form
+    // TODO - replace url & render Contact Data form
     history.replace('/checkout/contact-data');
   };
 
   render() {
-    const { match } = this.props;
-    const { ingredients, price } = this.state;
+    const { match, ingredients, purchased } = this.props;
 
-    return (
-      <div>
-        <CheckoutSummary
-          checkoutCancelled={this.checkoutCancelledHandler}
-          checkoutContinued={this.checkoutContinuedHandler}
-          ingredients={ingredients}/>
-        {/* create relative path, loading this component doesn't re-render whole Checkout page */}
-        <Route
-          path={match.path + '/contact-data'}
-          render={(props) => (<ContactData ingredients={ingredients} price={price} {...props} />)}/>
-      </div>
-    );
+    // Redirect to homepage if user refresh checkout page 'cause refreshing page clears state and ingredients would be null
+    let summary = <Redirect to="/" />;
+
+    if (ingredients) {
+      // if purchased state = true, then redirect to homepage
+      const purchasedRedirect = purchased ? <Redirect to="/"/> : null;
+      summary = (
+        <Fragment>
+          {purchasedRedirect}
+          <CheckoutSummary
+            checkoutCancelled={this.checkoutCancelledHandler}
+            checkoutContinued={this.checkoutContinuedHandler}
+            ingredients={ingredients}/>
+          {/* create relative path, loading this component doesn't re-render whole Checkout page */}
+          <Route path={match.path + '/contact-data'} component={ContactData}/>
+        </Fragment>
+      );
+    }
+
+    return summary;
   }
 }
 
-export default Checkout;
+const mapStateToProps = state => {
+  return {
+    ingredients: state.burgerBuilder.ingredients,
+    purchased: state.order.purchased
+  };
+};
+
+
+export default connect(mapStateToProps)(Checkout);
