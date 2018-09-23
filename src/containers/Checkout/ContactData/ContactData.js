@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../../axios-order';
+
+import * as actions from '../../../store/actions/index';
 
 import classes from './ContactData.css';
 
@@ -49,8 +53,9 @@ class ContactData extends Component {
         valueType: 'Zip Code',
         validation: {
           required: true,
-          minLength: 4,
-          maxLength: 4,
+          minLength: 5, // PH Based: 4
+          maxLength: 5,
+          isNumeric: true
         },
         valid: false,
         touched: false,
@@ -92,6 +97,7 @@ class ContactData extends Component {
         value: '',
         valueType: 'Email Address',
         validation: {
+          isEmail: true,
           required: true
         },
         valid: false,
@@ -112,96 +118,96 @@ class ContactData extends Component {
       },
     },
     formIsValid: false,
-    loading: false,
   }
 
-  // -- Handle Order onChange --
+  // TODO -- Handle Order Form --
   orderHandler = (e) => {
     e.preventDefault();
-    const { ingredients, price, history } = this.props;
+    const { ingredients, totalPrice, onOrderBurger } = this.props;
     const { orderForm } = this.state;
-
-    this.setState(prevState => ({ loading: true }));
 
     const formData = {};
 
     for (let formElementIdentifier in orderForm) {
-      // set the value of the property equal to the value the user entered to state
+      // TODO - set the value of the property equal to the value the user entered to state
       formData[formElementIdentifier] = orderForm[formElementIdentifier].value;
     }
 
-    // temporary order
     const order = {
       ingredients,
-      price,
+      totalPrice,
       orderData: formData
     };
 
-    // endpoint to use in firebase should be .json
-    axios.post('/orders.json', order)
-      .then(response => {
-        this.setState({ loading: false });
-        history.push('/');
-      })
-      .catch(error => {
-        this.setState({ loading: false });
-      });
+    onOrderBurger(order);
   };
 
-  // -- Handle Input Validation --
+  // TODO -- Handle Input Validation --
   checkValidity(value, rules)  {
     let isValid = true;
 
-    // if no validation rules are defined, return true for validity result
+    // TODO - if no validation rules are defined, return true for validity result
     if(!rules) {
       return true;
     }
 
-    // check if rules has a required rule
+    // TODO - check if rules has a required rule
     if (rules.required) {
-      // set to true if not empty & isValid, otherwise false if empty
+      // TODO - set to true if not empty & isValid, otherwise false if empty
       isValid = value.trim() !== '' && isValid;
     }
 
     if (rules.minLength) {
-      // set to true if length value is greater than or equal to rule min length & isValid, otherwise false if not met
+      // TODO - set to true if length value is greater than or equal to rule min length & isValid, otherwise false if not met
       isValid = value.length >= rules.minLength && isValid;
     }
 
     if (rules.maxLength) {
-      // set to true if length value is less than or equal to rule max length & isValid, otherwise false if not met
+      // TODO - set to true if length value is less than or equal to rule max length & isValid, otherwise false if not met
       isValid = value.length <= rules.maxLength && isValid;
+    }
+
+    if (rules.isEmail) {
+      const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+      isValid = pattern.test(value) && isValid;
+    }
+
+    if (rules.isNumeric) {
+        const pattern = /^\d+$/;
+        isValid = pattern.test(value) && isValid
     }
 
     return isValid;
   }
 
-  // -- Handle Input onChange --
+  // TODO -- Handle Input onChange --
   inputChangeHandler = (event, inputIdentifier) => {
     const { orderForm } = this.state;
 
-    // clone orderForm
+    // TODO - clone orderForm
     const updatedOrderForm = {
       ...orderForm
     }
 
-    // clone element
+    // TODO - clone element
     const updatedOrderFormElement = {
       ...updatedOrderForm[inputIdentifier]
     }
 
-    // set to event target value
+    // TODO - set to event target value
     updatedOrderFormElement.value = event.target.value;
-    // first check if it is valid
+
+    // TODO - first check if it is valid
     updatedOrderFormElement.valid = this.checkValidity(updatedOrderFormElement.value, updatedOrderFormElement.validation);
-    // set touch to true if user inputs
+
+    // TODO - set touch to true if user types
     updatedOrderFormElement.touched = true;
     updatedOrderForm[inputIdentifier] = updatedOrderFormElement;
 
-    let formIsValid = true;
-    // check al inputs for their validity for Button ORDER
+    let formIsValid = true; // set to true in general
+    // TODO - check all inputs for their validity for Button ORDER
     for (let inputIdentifiers in updatedOrderForm) {
-      // check if this given element valid and formIsValid in general true = true
+      // TODO - check if this given element is valid and formIsValid as is = true, thus if element is false then the formIsValid will be false
       formIsValid = updatedOrderForm[inputIdentifiers].valid && formIsValid;
     }
 
@@ -210,13 +216,14 @@ class ContactData extends Component {
   };
 
   render() {
-    const { loading, orderForm, formIsValid } = this.state;
+    const { orderForm, formIsValid } = this.state;
+    const { loading } = this.props;
 
-    const formElementArray = [];
+    const formElementsArray = [];
 
-    // structure orderForm with id & config for formElementArray
+    // TODO - structure orderForm with id & config for formElementArray
     for (let key in orderForm) {
-      formElementArray.push({
+      formElementsArray.push({
         id: key, // name, zipCode, email, etc...
         config: orderForm[key] // name, zipCode, email Configs etc...
       })
@@ -224,20 +231,20 @@ class ContactData extends Component {
 
     let form = (
       <form onSubmit={this.orderHandler}>
-        {formElementArray.map(({ id, config }) => (
+        {formElementsArray.map(({ id, config }) => (
           <Input
             key={id}
             elementType={config.elementType}
             elementConfig={config.elementConfig}
             value={config.value}
             valueType={config.valueType}
-            invalid={!config.valid}
+            invalid={!config.valid} // if not valid set to true, vice-versa
             shouldValidate={config.validation}
             touched={config.touched}
             changed={(event) => this.inputChangeHandler(event, id)}
             />
         ))}
-        <Button btnType="Success" clicked={this.orderHandler} disabled={!formIsValid}>ORDER</Button>
+        <Button btnType="Success" disabled={!formIsValid}>ORDER</Button>
       </form>
     );
 
@@ -254,4 +261,18 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+  return {
+    ingredients: state.burgerBuilder.ingredients,
+    totalPrice: state.burgerBuilder.totalPrice,
+    loading: state.order.loading
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onOrderBurger: orderData => dispatch(actions.purchaseBurger(orderData))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));

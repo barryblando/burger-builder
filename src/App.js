@@ -7,17 +7,6 @@ import Checkout from './containers/Checkout/Checkout';
 import Orders from './containers/Orders/Orders';
 
 class App extends Component {
-  // Test if withErrorHandler willUnMount works
-  // state = {
-  //   show: true,
-  // }
-
-  // componentDidMount() {
-  //   setTimeout(() => {
-  //     this.setState({ show: false });
-  //   }, 5000);
-  // }
-
   render() {
     return (
       <Fragment>
@@ -25,9 +14,9 @@ class App extends Component {
           <Switch>
             {/* <Route path="/" render={() => <h1>HOME</h1>} exact /> */}
             {/* <Route path="/burger-builder" component={BurgerBuilder} /> */}
+            <Route path="/" component={BurgerBuilder} exact />
             <Route path="/checkout" component={Checkout} />
             <Route path="/orders" component={Orders} />
-            <Route path="/" component={BurgerBuilder} />
           </Switch>
           {/* <BurgerBuilder builder="Test: Receive Props"/> */}
         </Layout>

@@ -5,17 +5,20 @@ import classes from './Burger.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 
 const renderBurger = ingredients => {
-  // turn ingredients into an array of strings using Object.keys
+  // TODO - turn ingredients object into an array of strings using Object.keys
   let transformedIngredients = Object.keys(ingredients)
     .map(igKey => {
-      //  map over on each ingredient key quantity & return
+      // TODO - Access & turn ingredient key quantity into an array of undefined spaces using spread-ed Array Method
+      // and then map over on each of it (quantity length) using only the index and then return ingredient
+      // e.g Salad: 2, Bacon: 2 -- [[0, 1]].map((_, i) => i) // ? [[0, 1], [0, 1], ...]
+      // flatten these arrays using reduce to pull out values of these inner arrays
       return [...Array(ingredients[igKey])].map((_, i) => (
         <BurgerIngredient key={igKey + i} type={igKey} />
       ));
     })
     .reduce((arr, el) => {
-      // console.log('Arr: ', arr);
-      // console.log('El: ', el);
+      // TODO - return flattened array of elements, separated by comma. React can render this kind of syntax
+      // [<BI type="salad" />, <BI type="salad" />, <BI type="bacon" />, <BI type="bacon" />] : [0, 1, 0, 1]
       return [...arr, ...el];
     }, []);
 
@@ -23,7 +26,7 @@ const renderBurger = ingredients => {
     transformedIngredients = <p className={classes.Burger__message}>Please start adding ingredients!</p>;
   }
 
-  // console.log(transformedIngredients);
+  console.log('[Burger] Transformed Ingredients: ', transformedIngredients);
 
   return (
     <div className={classes.Burger}>
@@ -35,7 +38,7 @@ const renderBurger = ingredients => {
 }
 
 // Burger: Debug Mode
-const burger = ({ ingredients }) => console.log(ingredients) || renderBurger(ingredients);
+const burger = ({ ingredients }) => console.log('[Burger] Ingredients: ', ingredients) || renderBurger(ingredients);
 
 
 export default burger;

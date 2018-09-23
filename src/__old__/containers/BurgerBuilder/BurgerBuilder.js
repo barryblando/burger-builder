@@ -94,45 +94,35 @@ class BurgerBuilder extends Component {
 
   // -- Handle displaying modal when 'order now' clicked
   purchaseHandler = () => {
-    this.setState(prevState => ({ purchasing: !prevState.purchasing }));
+    this.setState(prevState => ({ purchasing: true }));
   }
 
   // -- Handle close modal if backdrop clicked --
   purchaseCancelHandler = () => {
-    this.setState(prevState => ({ purchasing: !prevState.purchasing }));
+    this.setState(prevState => ({ purchasing: false }));
   }
 
   // -- Handle Order summary 'continue' clicked
   purchaseContinueHandler = () => {
-    // alert('You continue!');
-    this.setState(prevState => ({ loading: !prevState.loading }));
-    // temporary order
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: 'Barry Blando',
-        address: {
-          street: 'Emerald St',
-          zipCode: '8000',
-          city: 'DVO',
-          country: 'PH',
-        },
-        email: 'test@test.com'
-      },
-      deliveryMethod: 'fastest',
-      paymentMethod: 'COD',
-    };
-    // endpoint to use in firebase should be .json
-    axios.post('/orders.json', order)
-      .then(response => {
-        this.setState({ loading: false, purchasing: false });
-        this.setState(prevState => ({ loading: !prevState.loading, purchasing: !prevState.purchasing }));
-      })
-      .catch(error => {
-        this.setState({ loading: false, purchasing: false });
-        this.setState(prevState => ({ loading: !prevState.loading, purchasing: !prevState.purchasing }));
-      });
+    const { history } = this.props;
+    const { ingredients, totalPrice } = this.state;
+    const queryParams = [];
+
+    // loop through property names using for in
+    for(let i in ingredients) {
+      // i = property names, so property name = property value
+      queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(ingredients[i]));
+    }
+
+    // add totalPrice as query parameter
+    queryParams.push('price=' + totalPrice);
+
+    // join w/ & sign
+    const queryString = queryParams.join('&');
+    history.push({
+      pathname: '/checkout',
+      search: '?' + queryString
+    });
   }
 
   render() {

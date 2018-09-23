@@ -37,7 +37,7 @@ function bar(x = 2, ...args) {
 
 const arr = [6, 5];
 
-console.log(bar(...arr));
+// console.log(bar(...arr));
 
 const ingredients = {};
 
@@ -46,3 +46,22 @@ const param = ["salad", "1"]
 console.log(ingredients[param[0]] = param[1])
 
 console.log(ingredients);
+
+const updatedIngredients = {
+  salad: 2,
+  bacon: 3,
+  meat: 1,
+};
+
+[...Array(2)] // ? [ undefined, undefined ]
+const transformedIngredients = Object.keys(updatedIngredients).map(igKey => {
+    return [...Array(updatedIngredients[igKey])].map((_, i) => i) // ?
+  }).reduce((arr, el) => {
+    console.log(...arr);
+    console.log(...el);
+    console.log([...arr, ...el]);
+    return [...arr, ...el]
+  }, []); // ?
+
+console.log(transformedIngredients);
+
