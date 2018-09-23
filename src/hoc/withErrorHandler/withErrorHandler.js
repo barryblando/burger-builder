@@ -44,8 +44,8 @@ const withErrorHandler = (WrappedComponent, axios) => {
      *  - dead interceptors sitting in memory which actually not dead but still react to requests, worst case they lead to errors or do somehow
      *    change state of the app. leaks memory that is not required anymore.
      * CONCLUSION:
-     *  - componentWillMount will be called again and again because of the anonymous class component return is HOC and is created every time
-     *    which wrapped around existing component, every time we call withErrorHandler, w/o UnMounting interceptors we're actually attaching
+     *  - componentWillMount will be called again and again because of the anonymous class component and is created every time
+     *    which was wrapped around existing component, every time we call withErrorHandler, w/o UnMounting interceptors we're actually attaching
      *    multiple of it in the app and we're attaching them to the same axios instance. Use UnMount lifeCycle then eject interceptors.
      */
     componentWillUnmount() {
