@@ -10,7 +10,7 @@ import axios from '../../../axios-order';
 
 import * as actions from '../../../store/actions/index';
 
-import classes from './ContactData.css';
+import classes from './ContactData.module.scss';
 
 class ContactData extends Component {
   state = {
@@ -128,6 +128,7 @@ class ContactData extends Component {
 
     const formData = {};
 
+    // TODO - Define properties in formData
     for (let formElementIdentifier in orderForm) {
       // TODO - set the value of the property equal to the value the user entered to state
       formData[formElementIdentifier] = orderForm[formElementIdentifier].value;
@@ -139,6 +140,7 @@ class ContactData extends Component {
       orderData: formData
     };
 
+    // TODO - Pass Order
     onOrderBurger(order);
   };
 

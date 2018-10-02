@@ -1,6 +1,6 @@
 import React from 'react'
 
-import classes from './Button.css';
+import classes from './Button.module.scss';
 
 const button = props => {
   const { btnType, clicked, children, disabled } = props;

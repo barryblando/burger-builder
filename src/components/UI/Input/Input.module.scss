@@ -17,11 +17,11 @@
   padding: 6px 1rem;
   display: block;
   width: 100%;
-}
 
-.InputElement:focus {
-  outline: none;
-  background-color: #ccc;
+  &:focus {
+    outline: none;
+    background-color: #ccc;
+  }
 }
 
 .Invalid {

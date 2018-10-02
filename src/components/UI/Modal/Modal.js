@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import isEqual from 'react-fast-compare';
 
-import classes from './Modal.css';
+import classes from './Modal.module.scss';
 import Backdrop from '../Backdrop/Backdrop';
 
 const modalRoot = document.getElementById('modal-root');

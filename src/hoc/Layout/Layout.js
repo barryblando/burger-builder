@@ -10,7 +10,7 @@ import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
 // css modules
-import classes from './Layout.css';
+import classes from './Layout.module.scss';
 
 class Layout extends Component {
   state = {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from './BuildControl.css';
+import classes from './BuildControl.module.scss';
 
 const buildControl = ({ added, removed, disabled, label }) => (
   <div className={classes.BuildControl}>

@@ -6,10 +6,10 @@
   text-align: center;
   font-weight: bold;
   font-size: 1.2rem;
-}
 
-.Burger__message {
-  font-size: 1.8rem;
+  &__message {
+    font-size: 1.8rem;
+  }
 }
 
 @media (min-width: 31.25em) and (min-height: 25em) {

@@ -4,7 +4,7 @@ import Backdrop from '../../UI/Backdrop/Backdrop';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 
-import classes from './SideDrawer.css';
+import classes from './SideDrawer.module.scss';
 
 const sideDrawer = ({ open, closed }) => {
   let attachedClasses = [classes.SideDrawer, classes.CLose];

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 
 import BuildControl from './BuildControl/BuildControl';
 
-import classes from './BuildControls.css';
+import classes from './BuildControls.module.scss';
 
 // INFO: https://reactjs.org/docs/render-props.html
 // This is a render prop component - normally it would have life-cycle methods that fetch data and store loading or error states
