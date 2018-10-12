@@ -1,0 +1,17 @@
+%alertStyle {
+  max-width: 50%;
+  margin: 0 auto;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.SuccessAlert {
+  @extend %alertStyle;
+  background-color: rgba(66, 187, 62, 0.61);
+}
+
+.ErrorAlert {
+  @extend %alertStyle;
+  background-color: #F2DEDE;
+  color: #A94442;
+}
