@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import Modal from '../../components/UI/Modal/Modal';
 import Auxiliary from '../Auxiliary/Auxiliary';
 
+// INFO: https://reactjs.org/docs/higher-order-components.html
 const withErrorHandler = (WrappedComponent, axios) => {
   // return anonymous class
   return class extends Component {
