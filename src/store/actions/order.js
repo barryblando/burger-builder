@@ -39,12 +39,14 @@ export const fetchOrdersFail = error => ({ type: actionTypes.FETCH_ORDERS_FAIL, 
 export const fetchOrdersStart = () => ({ type: actionTypes.FETCH_ORDERS_START });
 
 // FETCH ORDERS
-export const fetchOrders = token => {
+export const fetchOrders = (token, userId) => {
   return dispatch => {
     dispatch(fetchOrdersStart());
+    // fetch only orders by userId, and set indexOn array searchable to "userId" on firebase database rules
+    const queryParams = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`;
     // pass token to authorize / use getState to get token & pass it
     axios
-      .get(`/orders.json?auth=${token}`)
+      .get(`/orders.json${queryParams}`)
       .then(res => {
         const rawData = res.data || {};
         console.log("[Orders] rawData: ", rawData);
