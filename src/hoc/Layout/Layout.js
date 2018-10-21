@@ -1,15 +1,14 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 
 // A common pattern in React is for a component to return multiple elements. To fix:
 // (Old Way) create an HOC Aux (self-eradicating component) to wrap adjacent elements
 // (New Way) by Instantiating Fragment wrapping the children elements/components
 // Fragments let you group a list of children without adding extra nodes to the DOM (i.e div hell)
-// import Aux from '../../hoc/Aux';
 
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
-// css modules
 import classes from './Layout.module.scss';
 
 class Layout extends Component {
@@ -27,14 +26,16 @@ class Layout extends Component {
 
   render() {
     const { showSideDrawer } = this.state;
-    const { children } = this.props;
+    const { children, isAuthenticated } = this.props;
 
     return (
       <Fragment>
         <Toolbar
+          isAuth={isAuthenticated}
           drawerToggleClicked={this.sideDrawerToggleHandler}
         />
         <SideDrawer
+          isAuth={isAuthenticated}
           open={showSideDrawer}
           closed={this.sideDrawerClosedHandler}/>
         <main className={classes.Content}>
@@ -45,5 +46,10 @@ class Layout extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: !!state.auth.token
+  };
+};
 
-export default Layout;
+export default connect(mapStateToProps)(Layout);
