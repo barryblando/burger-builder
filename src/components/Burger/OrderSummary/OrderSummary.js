@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 
 import Button from '../../UI/Button/Button';
 
-import classes from './OrderSummary.css';
+import classes from './OrderSummary.module.scss';
 
 const orderSummary = props =>{
   const { ingredients, price, purchaseCanceled, purchaseContinued } = props;

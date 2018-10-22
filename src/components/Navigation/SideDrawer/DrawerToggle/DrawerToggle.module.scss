@@ -7,16 +7,16 @@
   background: transparent;
   border: 0;
   cursor: pointer;
-}
 
-.ToggleButton:focus {
-  outline: none;
-}
+  &:focus {
+    outline: none;
+  }
 
-.ToggleButton__line {
-  width: 30px;
-  height: 3px;
-  background: #ffffff;
+  &__line {
+    width: 30px;
+    height: 3px;
+    background: #ffffff;
+  }
 }
 
 @media (min-width: 31.25em) {

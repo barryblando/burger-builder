@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 
 import BuildControl from './BuildControl/BuildControl';
 
-import classes from './BuildControls.css';
+import classes from './BuildControls.module.scss';
 
 // INFO: https://reactjs.org/docs/render-props.html
 // This is a render prop component - normally it would have life-cycle methods that fetch data and store loading or error states
@@ -19,15 +19,15 @@ class ControlsRenderProp extends Component {
   }
 }
 
-const buildControls = props => {
-  const {
-    price,
-    ingredientAdded,
-    ingredientRemoved,
-    disabled,
-    purchaseable,
-    ordered
-  } = props;
+const buildControls = ({
+  price,
+  ingredientAdded,
+  ingredientRemoved,
+  disabled,
+  purchaseable,
+  ordered,
+  isAuth
+}) => {
 
   return (
     <div className={classes.BuildControls}>
@@ -52,7 +52,7 @@ const buildControls = props => {
                 <button
                   className={classes.OrderButton}
                   disabled={!purchaseable} // if not/false purchaseable then flip it to true so it will set button to disabled
-                  onClick={ordered}>ORDER NOW</button>
+                  onClick={ordered}>{ isAuth ? 'ORDER NOW' : 'SIGN UP TO ORDER' }</button>
               </Fragment>
             )
           }

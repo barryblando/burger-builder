@@ -35,6 +35,20 @@ const AdminInfo = withAdminWarning(Info);
 render(<AdminInfo isAdmin={false} info="There are the details" />, document.getElementById('app'));
 // render(<AuthInfo isAuthenticated info="There are the details" />, document.getElementById('app'));
 
+// -- HOC ? let's say our WrappedComponent is EditExpensePage --
+// const connect = (injectedStateProp, injectedDispatchProp) => {
+//   **CLOSURE&CURRYING**
+//   - we can still have access to variable StateProp & DispatchProp 'cause of scope chain & lexical env
+//   return (WrappedComponent) => {
+//     - props here are values injected by other Component (e.g Router that passes down match prop)
+//     - return function that returns WrappedComponent w/ props to render
+//     return (props) => <WrappedComponent {...injectedStateProp} {...injectedDispatchProp} {...props} />
+//   };
+// };
+//
+//   **PARTIAL APPLICATION**
+// connect(mapStateToProps, mapDispatchToProps)(EditExpensePage);
+
 // Part of FunctionalProgramming101
 // FUNCTIONs are first class citizens in javascript, why? take a look at this
 
@@ -42,10 +56,10 @@ render(<AdminInfo isAdmin={false} info="There are the details" />, document.getE
 function createSafeVersion(func) {
   /** CLOSURE & CURRYING - Works with Function **/
   // 2. Can be return by a function
-  return function(n, message) {
+  return function(n, message) { //  <== (Lexically Sits!)
     if (n !== null && typeof n === 'number') {
       if (message !== null && typeof message === 'string') {
-        return func(n, message); // <== (Lexical!, Closure is when a function "remembers" its lexical scope even when the function is executed outside that lexical scope)
+        return func(n, message); // Closure is when a function can remember and access its lexical scope even when it's invoked outside its lexical scope., we can access lexical names which are identifiers that are used to name variables (and keywords, and functions, and labels, etc..
       }
     }
   }
@@ -73,3 +87,42 @@ let getSubstringOfLengthSafe = createSafeVersion(getSubstringOfLength);
 printMessageNTimesSafe(4, 'Banana'); // 'Banana Banana Banana Banana'
 getNthLetterSafe(2, 'Javascript'); // 'v'
 getSubstringOfLengthSafe(5, 'Hello and welcome'); // 'Hello'
+
+// *************************************************************************
+// *************************************************************************
+
+function breathe(amount) {
+  return new Promise((resolve, reject) => {
+    if(amount < 500) {
+      reject('Ohh Noo! Too Low!')
+    }
+    setTimeout(() => resolve(`Done for ${amount} ms`), amount);
+  });
+}
+
+function catchErrors(fn) {
+  // using rest operator to gather all those together from assignment context into an array
+  return function(...params) {
+    // using spread operator to spread all those in value context out into individual values
+    return fn(...params).catch((err) => { // go returns promise so you can always just tack on a .catch on the end
+      console.error('Ohh Nooo!!!!');
+      console.error(err);
+    });
+  }
+}
+
+async function go(name, last) {
+  console.log(`Starting for ${name} ${last}!!!`);
+  const res = await breathe(1000);
+  console.log(res);
+  const res2 = await breathe(300);
+  console.log(res2);
+  const res3 = await breathe(750);
+  console.log(res3);
+  const res4 = await breathe(900);
+  console.log(res4);
+}
+
+/** CURRYING **/
+const wrappedFunction = catchErrors(go);
+wrappedFunction('Barry', 'Blando')

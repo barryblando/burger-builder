@@ -124,7 +124,7 @@ if (foo == false) {
 /**
  * As logical expressions are evaluated left to right, they are tested for possible "short-circuit" evaluation using the following rules:
  * false && (anything) is short-circuit evaluated to false.
- * true || (anything) is short-circuit evaluated to true.
+ * true || (anything) is short-circuit evaluated to true. Or Operator does a truthy test on the first argument/operand.
  */
 
 // DEBUGGING IN REACT: Implicit Returns
@@ -132,8 +132,7 @@ if (foo == false) {
 // const Dogs = props => console.log(props) || <p>There are {props.dogs.length} Dogs!</p>
 
 /**
- * Since console.log() returns nothing/undefined, undefined will be coerce to falsy.
- * Then jsx syntax will be outputted.
+ * Since console.log() returns nothing/undefined, undefined will be coerce to falsy. Then jsx syntax will be outputted.
  */
 
 // IF YOU ARE DEBUGGING SOMETHING IN THE MIDDLE OF CHAINING ARRAY METHODS, JUST USE MAP OVER IT, console.log, and return it.
