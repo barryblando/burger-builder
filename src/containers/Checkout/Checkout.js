@@ -25,11 +25,10 @@ class Checkout extends Component {
     let summary = <Redirect to="/" />;
 
     if (ingredients) {
-      // if purchased state = true, then redirect to homepage
-      const purchasedRedirect = purchased ? <Redirect to="/"/> : null;
+      // if ContactData purchase's success & purchased state set to true, then redirect to homepage
       summary = (
         <Fragment>
-          {purchasedRedirect}
+          { purchased && <Redirect to="/"/> }
           <CheckoutSummary
             checkoutCancelled={this.checkoutCancelledHandler}
             checkoutContinued={this.checkoutContinuedHandler}
