@@ -21,8 +21,13 @@ class BurgerBuilder extends Component {
   // componentDidMount triggered after execution of the componentWillMount -> render from HOC withErrorHandler
   componentDidMount() {
     console.log(this.props);
+    // initialize ingredients every time this component gets mounted
     this.props.initIngredients();
   }
+
+  // INFO: arrow function don't have a 'this' so they always lexically inherit 'this' from their enclosing scope (e.g BurgerBuilder)
+  // if didn't find 'this' from enclosing scope (class instance) it will lexically search where enclosing scope delegates/links to,
+  // which in this class is React.Component and that is where setState lives. You don’t have to bind it explicitly.
 
   // TODO -- Handle 'order now' availability state, other way to use componentDidUpdate but performance issues --
   updatePurchaseState = (ingredients) => {
@@ -39,10 +44,14 @@ class BurgerBuilder extends Component {
 
   // TODO -- Handle displaying modal when 'order now' clicked
   purchaseHandler = () => {
-    // INFO: arrow function don't have a 'this' so they always lexically inherit 'this' from their enclosing scope (e.g BurgerBuilder)
-    // if didn't find 'this' from enclosing scope it will lexically search where enclosing scope delegates/link to,
-    // in this class which is React.Component and that is where setState lives.
-    this.setState({ purchasing: true });
+    const { isAuthenticated, history, onSetAuthRedirectPath } = this.props;
+    if (isAuthenticated) {
+      this.setState({ purchasing: true });
+    } else {
+      // push to auth page & set auth redirect path
+      onSetAuthRedirectPath('/checkout');
+      history.push('/auth');
+    }
   }
 
   // TODO -- Handle close modal if backdrop clicked --
@@ -54,7 +63,7 @@ class BurgerBuilder extends Component {
   purchaseContinueHandler = () => {
     const { history, onInitPurchased } = this.props;
     // PROBLEM: Checkout componentWillMount is too late when executing onInit, it doesn't prevent the rendering with old props by redux
-    // SOLUTION: set purchased state to false before continuing to checkout page so we won't get redirected back to homepage
+    // SOLUTION: set purchased state to false in here before continuing to checkout page so we won't get redirected back to homepage
     onInitPurchased();
     // What history.push does is it pushes a new entry onto the history stack - aka redirecting the user to another route.
     history.push('/checkout');
@@ -67,7 +76,8 @@ class BurgerBuilder extends Component {
       totalPrice,
       error,
       onIngredientAdded,
-      onIngredientRemoved
+      onIngredientRemoved,
+      isAuthenticated
     } = this.props;
 
     const disabledInfo = {
@@ -96,6 +106,7 @@ class BurgerBuilder extends Component {
             purchaseable={this.updatePurchaseState(ingredients)}
             ordered={this.purchaseHandler}
             price={totalPrice}
+            isAuth={isAuthenticated}
           />
         </Fragment>
       );
@@ -122,16 +133,18 @@ const mapStateToProps = state => {
   return {
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
-    error: state.burgerBuilder.error
+    error: state.burgerBuilder.error,
+    isAuthenticated: !!state.auth.token,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     initIngredients: () => dispatch(actions.initIngredients()),
-    onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
-    onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
-    onInitPurchased: () => dispatch(actions.purchaseInit())
+    onIngredientAdded: ingName => dispatch(actions.addIngredient(ingName)),
+    onIngredientRemoved: ingName => dispatch(actions.removeIngredient(ingName)),
+    onInitPurchased: () => dispatch(actions.purchaseInit()),
+    onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path))
   }
 };
 
