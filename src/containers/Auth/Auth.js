@@ -128,10 +128,6 @@ class Auth extends Component {
       );
     }
 
-    if (isAuthenticated) {
-
-    }
-
     // TODO: Add close button to alert and assign toggleHandler to handle showAlert state
     return (
       <div className={classes.Auth}>
@@ -154,7 +150,7 @@ const mapStateToProps = state => {
     loading: state.auth.loading,
     error: state.auth.error,
     isAuthenticated: !!state.auth.token,
-    buildingBurger: state.buildingBurger.building,
+    buildingBurger: state.burgerBuilder.building,
     authRedirectPath: state.auth.authRedirectPath,
   };
 };
