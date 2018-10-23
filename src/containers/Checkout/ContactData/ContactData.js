@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 
-import { checkValidity } from "../../../utils/index";
+import { checkValidity, updateObject } from "../../../utils/index";
 
 import Button from "../../../components/UI/Button/Button";
 import Spinner from "../../../components/UI/Spinner/Spinner";
@@ -157,31 +157,28 @@ class ContactData extends Component {
   inputChangeHandler = (event, inputIdentifier) => {
     const { orderForm } = this.state;
 
-    // TODO - clone orderForm
-    const updatedOrderForm = {
-      ...orderForm
-    };
+    // TODO - update element
+    const updatedOrderFormElement = updateObject(orderForm[inputIdentifier], {
+      // TODO - set to event target value
+      value: event.target.value,
+      // TODO - first check if it is valid
+      valid: checkValidity(event.target.value, orderForm[inputIdentifier].validation),
+      // TODO - set touch to true if user types
+      touched: true,
+    });
 
-    // TODO - clone element
-    const updatedOrderFormElement = {
-      ...updatedOrderForm[inputIdentifier]
-    };
-
-    // TODO - set to event target value
-    updatedOrderFormElement.value = event.target.value;
-
-    // TODO - first check if it is valid
-    updatedOrderFormElement.valid = checkValidity(updatedOrderFormElement.value, updatedOrderFormElement.validation);
-
-    // TODO - set touch to true if user types
-    updatedOrderFormElement.touched = true;
-    updatedOrderForm[inputIdentifier] = updatedOrderFormElement;
+    // TODO - update orderForm
+    const updatedOrderForm = updateObject(orderForm, {
+      [inputIdentifier]: updatedOrderFormElement
+    });
 
     let formIsValid = true; // set to true in general
-    // TODO - check all inputs for their validity for Button ORDER
-    for (let inputIdentifiers in updatedOrderForm) {
-      // TODO - check if this given element is valid and formIsValid as is = true, thus if element is false then the formIsValid will be false
-      formIsValid = updatedOrderForm[inputIdentifiers].valid && formIsValid;
+    // TODO - check all inputs for their validity for button ORDER clickable state
+    for (let inputIdentifier in updatedOrderForm) {
+      // LOGIC:
+      // FIRST CHECK: If element is valid and formIsValid as is = true, thus if it is false then the formIsValid will be mutated to false
+      // NEXT CHECK: If element is valid but previous formIsValid was false then all will be overridden to false, so on and so forth..
+      formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
     }
 
     console.log(

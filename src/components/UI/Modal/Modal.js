@@ -13,8 +13,6 @@ class Modal extends Component {
   // TODO -- Prevent OrderSummary from unnecessary render when adding and removing
   // react only when show is true & props.children is different, don't react on clicked listener
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('[Modal] [prevProps/this.props]: ', this.props.show, this.props.children);
-    console.log('[Modal] [nextProps]: ', nextProps.show, nextProps.children);
     return !isEqual(this.props, nextProps);
   }
 
@@ -29,6 +27,7 @@ class Modal extends Component {
             style={{
               transform: show ? 'translateY(0)' : 'translateY(-10vh)',
               opacity: show ? '1' : '0',
+              zIndex: show ? '150' : '-10',
             }}
             >
             {children}
