@@ -11,17 +11,9 @@ import Logout from './containers/Auth/Logout/Logout';
 
 import * as actions from './store/actions/index';
 
-const asyncCheckout = asyncComponent(() => {
-  return import('./containers/Checkout/Checkout')
-});
-
-const asyncOrders = asyncComponent(() => {
-  return import('./containers/Orders/Orders')
-});
-
-const asyncAuth = asyncComponent(() => {
-  return import('./containers/Auth/Auth')
-});
+const asyncCheckout = asyncComponent(() => import('./containers/Checkout/Checkout'));
+const asyncOrders = asyncComponent(() => import('./containers/Orders/Orders'));
+const asyncAuth = asyncComponent(() => import('./containers/Auth/Auth'));
 
 class App extends Component {
 
