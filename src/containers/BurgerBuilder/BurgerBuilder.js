@@ -11,7 +11,7 @@ import axios from '../../axios-order';
 
 import * as actions from '../../store/actions/index';
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
   state = {
     // purchaseable: false,
     purchasing: false,
@@ -22,7 +22,7 @@ class BurgerBuilder extends Component {
   componentDidMount() {
     console.log(this.props);
     // initialize ingredients every time this component gets mounted
-    this.props.initIngredients();
+    this.props.onInitIngredients();
   }
 
   // INFO: arrow function don't have a 'this' so they always lexically inherit 'this' from their enclosing scope (e.g BurgerBuilder)
@@ -140,7 +140,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    initIngredients: () => dispatch(actions.initIngredients()),
+    onInitIngredients: () => dispatch(actions.initIngredients()),
     onIngredientAdded: ingName => dispatch(actions.addIngredient(ingName)),
     onIngredientRemoved: ingName => dispatch(actions.removeIngredient(ingName)),
     onInitPurchased: () => dispatch(actions.purchaseInit()),
