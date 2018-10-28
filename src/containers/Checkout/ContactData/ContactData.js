@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 
-import { checkValidity, updateObject } from "../../../utils/index";
+import { checkValidity, updateObject } from "../../../utils/";
 
 import Button from "../../../components/UI/Button/Button";
 import Spinner from "../../../components/UI/Spinner/Spinner";
@@ -10,7 +10,7 @@ import Input from "../../../components/UI/Input/Input";
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 import axios from "../../../axios-order";
 
-import * as actions from "../../../store/actions/index";
+import * as actions from "../../../store/actions/";
 
 import classes from "./ContactData.module.scss";
 
