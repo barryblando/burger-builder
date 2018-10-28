@@ -4,7 +4,7 @@ import Button from '../../UI/Button/Button';
 
 import classes from './OrderSummary.module.scss';
 
-const orderSummary = props =>{
+const orderSummary = props => {
   const { ingredients, price, purchaseCanceled, purchaseContinued } = props;
 
   const ingredientSummary = Object.keys(ingredients)
