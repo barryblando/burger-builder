@@ -1,4 +1,4 @@
-import axios from '../../axios-order';
+// SAGAS MODE
 import * as actionTypes from './actionTypes';
 
 export const addIngredient = ingName => {
@@ -28,21 +28,4 @@ export const fetchIngredientsFailed = () => {
   };
 };
 
-export const initIngredients = () => {
-  return dispatch => {
-    // TODO - get all the ingredients from firebase
-    axios.get('/ingredients.json')
-      .then(response => {
-      // TODO - destructure response data
-      const { salad, bacon, cheese, meat } = response.data;
-      // TODO - set the ingredients position starting with salad manually
-      const ingredients = { salad, bacon, cheese, meat };
-      // TODO - dispatch ingredients
-      dispatch(setIngredients(ingredients))
-    })
-    .catch(error => {
-      // TODO - if can't retrieve endpoint then set error to true
-      dispatch(fetchIngredientsFailed());
-    });
-  };
-};
+export const initIngredients = () => ({ type: actionTypes.INIT_INGREDIENTS });
