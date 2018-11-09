@@ -9,10 +9,10 @@ export const authSuccess = ({ idToken, localId }) => ({
 
 export const authFail = error => ({ type: actionTypes.AUTH_FAIL, error });
 
-// action creator for sagaWatcher
+// action creator for sagaWatcher to listen and use its forwarded payloads/actions if have one
 export const logout = () => ({ type: actionTypes.AUTH_INITIATE_LOGOUT });
 
-// action creator for Sagas
+// action creator for Saga to dispatch
 export const logoutSucceed = () => ({ type: actionTypes.AUTH_LOGOUT });
 
 // set payloads for checkAuthTimeout & auth 'cause redux saga depends on these actions to use
