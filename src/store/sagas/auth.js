@@ -2,7 +2,7 @@ import axios from 'axios';
 import { delay } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 
-import * as actions from '../actions/'
+import * as actions from '../actions'
 // Saga will handle side effects
 
 export function* logoutSaga(action) {
@@ -13,18 +13,16 @@ export function* logoutSaga(action) {
   yield put(actions.logoutSucceed())
 }
 
-export function* checkAuthTimeoutSaga(action) {
+export function* checkAuthTimeoutSaga({ expirationTime }) {
   // delay, delays the execution of the next step
-  yield delay(action.expirationTime * 1000); // 3.6secs * 1000 = 3,600 secs / 60 secs = 60 mins = 1Hr Expiration Time
+  yield delay(expirationTime * 1000); // 3.6s  ecs * 1000 = 3,600 secs / 60 secs = 60 mins = 1Hr Expiration Time
   yield put(actions.logout());
 }
 
-export function* authUserSaga(action) {
+export function* authUserSaga({ email, password, isSignUp }) {
   yield put(actions.authStart());
 
-  const { email, password, isSignUp } = action;
   const authData = { email, password, returnSecureToken: true };
-
   let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyCE1zoAXn_sfN2sVUvTszQtfvgsBoPlAM8';
 
   // if not in sign up mode, then..
