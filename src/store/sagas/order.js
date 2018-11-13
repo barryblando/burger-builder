@@ -1,4 +1,4 @@
-import { put } from 'redux-saga/effects';
+import { put, call } from 'redux-saga/effects';
 
 import axios from "../../axios-order";
 import * as actions from '../actions'
@@ -7,9 +7,9 @@ export function* purchaseBurgerSaga({ token, orderData }) {
   yield put(actions.purchaseBurgerStart());
   // INFO: endpoint to use in firebase REST API should be .json
   try {
-    const response = yield axios.post(`/orders.json?auth=${token}`, orderData)
+    const { data } = yield call(axios.post, `/orders.json?auth=${token}`, orderData);
     // TODO destructure response.data.name and reassign it as id
-    const { name: id } = response.data || {};
+    const { name: id } = data || {};
     // TODO dispatch purchaseBurgerSuccess to store for state updates and re-render views
     yield put(actions.purchaseBurgerSuccess(id, orderData));
     // !!TODO: dispatch(push('/')) update if connected react router configured
@@ -24,8 +24,8 @@ export function* fetchOrdersSaga({ token, userId }) {
   const queryParams = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`;
   // pass token to authorize / use getState to get token & pass it
   try {
-    const response = yield axios.get(`/orders.json${queryParams}`);
-    const rawData = response.data || {};
+    const { data } = yield call(axios.get, `/orders.json${queryParams}`);
+    const rawData = data || {};
     console.log("[Orders] rawData: ", rawData);
     console.log("[Orders] Object Keys as Order Id's: ", Object.keys(rawData));
     // TODO - turn fetched json object into an array of object

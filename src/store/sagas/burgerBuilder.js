@@ -1,14 +1,14 @@
 import axios from '../../axios-order';
-import { put } from 'redux-saga/effects';
+import { put, call } from 'redux-saga/effects';
 
 import * as actions from '../actions';
 
 export function* initIngredientsSaga(action) {
   // TODO - get all the ingredients from firebase
   try {
-    const response = yield axios.get('/ingredients.json')
+    const { data } = yield call(axios.get, '/ingredients.json');
     // TODO - destructure response data
-    const { salad, bacon, cheese, meat } = response.data;
+    const { salad, bacon, cheese, meat } = data;
     // TODO - set the ingredients position starting with salad manually
     const ingredients = { salad, bacon, cheese, meat };
     // TODO - dispatch ingredients

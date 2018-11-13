@@ -1,18 +1,19 @@
 import axios from 'axios';
 import { delay } from 'redux-saga';
-import { put } from 'redux-saga/effects';
+import { put, call } from 'redux-saga/effects';
 
 import * as actions from '../actions'
-// Saga will handle side effects
+
 
 export function* logoutSaga(action) {
   // after yielding/executing step by step, dispatch action using put
-  yield localStorage.removeItem('token');
-  yield localStorage.removeItem('expirationDate');
-  yield localStorage.removeItem('userId');
+  yield call([localStorage, 'removeItem'], 'token', 'expirationDate', 'userId');
+  yield call([localStorage, 'removeItem'], "expirationDate");
+  yield call([localStorage, 'removeItem'], "userId");
   yield put(actions.logoutSucceed())
 }
 
+// if watcher executes sagas after certain actions it listens to, it will use the action creator's payloads that have been passed in.
 export function* checkAuthTimeoutSaga({ expirationTime }) {
   // delay, delays the execution of the next step
   yield delay(expirationTime * 1000); // 3.6s  ecs * 1000 = 3,600 secs / 60 secs = 60 mins = 1Hr Expiration Time
@@ -31,13 +32,14 @@ export function* authUserSaga({ email, password, isSignUp }) {
   }
 
   try {
-    const response = yield axios.post(url, authData);
-    const expirationDate = yield new Date(new Date().getTime() + response.data.expiresIn * 1000);
-    yield localStorage.setItem('token', response.data.idToken);
+    // const response = yield axios.post(url, authData);
+    const { data } = yield call(axios.post, url, authData);
+    const expirationDate = yield new Date(new Date().getTime() + data.expiresIn * 1000);
+    yield localStorage.setItem('token', data.idToken);
     yield localStorage.setItem('expirationDate', expirationDate);
-    yield localStorage.setItem('userId', response.data.localId);
-    yield put(actions.authSuccess(response.data));
-    yield put(actions.checkAuthTimeout(response.data.expiresIn));
+    yield localStorage.setItem('userId', data.localId);
+    yield put(actions.authSuccess(data));
+    yield put(actions.checkAuthTimeout(data.expiresIn));
 
   } catch (error) {
     yield put(actions.authFail(error.response.data.error));
