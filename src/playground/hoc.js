@@ -101,9 +101,9 @@ function breathe(amount) {
 }
 
 function catchErrors(fn) {
-  // using rest operator to gather all those together from assignment context into an array
+  // using rest operator to gathers a set of values together from assignment context into an array - // ['Barry', 'Blando']
   return function(...params) {
-    // using spread operator to spread all those in value context out into individual values
+    // using spread operator to spread all those in value context out into its individual values - // Barry Blando
     return fn(...params).catch((err) => { // go returns promise so you can always just tack on a .catch on the end
       console.error('Ohh Nooo!!!!');
       console.error(err);
