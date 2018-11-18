@@ -19,15 +19,16 @@ class ControlsRenderProp extends Component {
   }
 }
 
-const buildControls = ({
-  price,
-  ingredientAdded,
-  ingredientRemoved,
-  disabled,
-  purchaseable,
-  ordered,
-  isAuth
-}) => {
+const buildControls = props => {
+  const {
+    price,
+    ingredientAdded,
+    ingredientRemoved,
+    disabled,
+    purchaseable,
+    ordered,
+    isAuth
+  } = props;
 
   return (
     <div className={classes.BuildControls}>
