@@ -11,6 +11,9 @@ import * as serviceWorker from './serviceWorker';
 
 import configureStore from './store/configureStore';
 
+// Playgrounds
+// import ReactHooks from './playground/react-hooks/App';
+
 const app = (
   <Provider store={configureStore}>
     <BrowserRouter>

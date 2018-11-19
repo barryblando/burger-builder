@@ -1,0 +1,68 @@
+.app {
+  background: #209cee;
+  padding: 30px;
+  height: 100vh;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.isCompleted {
+  text-decoration: line-through;
+}
+
+.todo__list {
+  background: #e8e8e8;
+  border-radius: 4px;
+  padding: 5px;
+  width: 20%;
+}
+
+.todo {
+  background: #fff;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+  padding: 3px 10px;
+  font-size: 12px;
+  margin-bottom: 6px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__buttons {
+    opacity: 0;
+  }
+
+  &:hover &__buttons {
+    opacity: 1;
+  }
+}
+
+.input {
+  padding: 5px;
+  margin-right: 5px;
+  width: 100%;
+}
+
+.button {
+  background: #fff;
+  text-decoration: none;
+  outline:none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: none;
+  padding: 5px;
+}
+
+.button:hover {
+  background: #ccc;
+}
+
+.button:not(:last-child) {
+  margin-right: 5px;
+}
