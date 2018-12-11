@@ -205,10 +205,14 @@ class ContactData extends Component {
     }
 
     let form = (
-      <form onSubmit={this.orderHandler}>
-        {formElementsArray.map(({ id, config }) => (
-          <Fragment>
-            <span>Text Inputted: {config.value}</span>
+      <Fragment>
+        <ul>
+          {formElementsArray.map(({ id, config }) => (
+            <li key={id}>{config.value}</li>
+          ))}
+        </ul>
+        <form onSubmit={this.orderHandler}>
+          {formElementsArray.map(({ id, config }) => (
             <Input
               key={id}
               elementType={config.elementType}
@@ -220,12 +224,12 @@ class ContactData extends Component {
               touched={config.touched}
               changed={event => this.inputChangeHandler(event, id)}
             />
-          </Fragment>
-        ))}
-        <Button btnType="Success" disabled={!formIsValid}>
-          ORDER
-        </Button>
-      </form>
+          ))}
+          <Button btnType="Success" disabled={!formIsValid}>
+            ORDER
+          </Button>
+        </form>
+      </Fragment>
     );
 
     if (loading) {
