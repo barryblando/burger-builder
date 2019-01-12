@@ -20,10 +20,15 @@
     ".stylelintrc": "json"
   },
   "files.autoSave": "onFocusChange",
+  "eslint.alwaysShowStatus": true,
   "emmet.includeLanguages": {
     "javascript": "javascriptreact"
   },
   "emmet.syntaxProfiles": {
     "javascript": "{jsx|js}"
-  }
+  },
+  "eslint.autoFixOnSave": true,
+  "prettier.disableLanguages": [
+    "js"
+  ]
 }
