@@ -3,7 +3,7 @@ export const checkValidity = (value, rules) => {
   let isValid = true;
 
   // TODO - if no validation rules are defined, return true for validity result
-  if(!rules) {
+  if (!rules) {
     return true;
   }
 
@@ -29,9 +29,9 @@ export const checkValidity = (value, rules) => {
   }
 
   if (rules.isNumeric) {
-      const pattern = /^\d+$/;
-      isValid = pattern.test(value) && isValid
+    const pattern = /^\d+$/;
+    isValid = pattern.test(value) && isValid;
   }
 
   return isValid;
-}
+};

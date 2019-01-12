@@ -1,3 +1,1 @@
-export const trimByPattern = (string, pattern) => {
-  return string.replace(pattern, ' ');
-}
+export const trimByPattern = (string, pattern) => string.replace(pattern, ' ');
