@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment } from 'react';
 
 import classes from './Alert.module.scss';
 
@@ -6,14 +6,14 @@ const alert = ({ children, type }) => {
   let styleClass = null;
   let alertTxt = '';
 
-  switch(type) {
+  switch (type) {
     case 'Success':
       styleClass = classes.SuccessAlert;
-      alertTxt = 'Success'
+      alertTxt = 'Success';
       break;
     case 'Error':
       styleClass = classes.ErrorAlert;
-      alertTxt = 'Error'
+      alertTxt = 'Error';
       break;
     default:
       styleClass = null;
@@ -21,9 +21,11 @@ const alert = ({ children, type }) => {
 
   return (
     <Fragment>
-      <p className={styleClass}><strong>{alertTxt}!</strong> {children}</p>
+      <p className={styleClass}>
+        <strong>{alertTxt}!</strong> {children}
+      </p>
     </Fragment>
   );
-}
+};
 
 export default alert;

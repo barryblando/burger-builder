@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment } from 'react';
 
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import Logo from '../../Logo/Logo';
@@ -30,4 +30,3 @@ const sideDrawer = ({ open, closed, isAuth }) => {
 };
 
 export default sideDrawer;
-

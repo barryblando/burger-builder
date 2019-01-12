@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import Logo from '../../Logo/Logo';
 
@@ -14,7 +14,7 @@ const toolbar = ({ drawerToggleClicked, isAuth }) => (
       <Logo />
     </div>
     <nav className={classes.DesktopOnly}>
-        <NavigationItems isAuthenticated={isAuth}/>
+      <NavigationItems isAuthenticated={isAuth} />
     </nav>
   </header>
 );

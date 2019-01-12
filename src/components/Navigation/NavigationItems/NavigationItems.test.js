@@ -9,7 +9,7 @@ describe('<NavigationItems />', () => {
 
   beforeEach(() => {
     wrapper = shallow(<NavigationItems />);
-  })
+  });
 
   test('should render two <NavigationItems /> elements if not authenticated', () => {
     // expect to have 2 NavigationItem (BurgerBuilder, Authenticate)
@@ -31,5 +31,4 @@ describe('<NavigationItems />', () => {
     wrapper.setProps({ isAuthenticated: true });
     expect(wrapper.contains(<NavigationItem link="/orders">Orders</NavigationItem>)).toEqual(true);
   });
-
 });
