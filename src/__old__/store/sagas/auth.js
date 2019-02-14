@@ -2,14 +2,16 @@ import axios from 'axios';
 import { delay } from 'redux-saga';
 import { put, call, take } from 'redux-saga/effects';
 
-import * as actions from '../actions'
+import * as actions from '../actions';
+
+// https://medium.com/@MattiaManzati/tips-to-handle-authentication-in-redux-4d596e11bb21
 
 export function* logoutSaga(action) {
   // after yielding/executing step by step, dispatch action using put
   yield call([localStorage, 'removeItem'], 'token', 'expirationDate', 'userId');
-  yield call([localStorage, 'removeItem'], "expirationDate");
-  yield call([localStorage, 'removeItem'], "userId");
-  yield put(actions.logoutSucceed())
+  yield call([localStorage, 'removeItem'], 'expirationDate');
+  yield call([localStorage, 'removeItem'], 'userId');
+  yield put(actions.logoutSucceed());
 }
 
 // if watcher executes sagas after certain actions it listens to, it will use the action creator's payloads that have been passed in.
@@ -19,16 +21,17 @@ export function* checkAuthTimeoutSaga({ expirationTime }) {
   yield put(actions.logout());
 }
 
-
 export function* authUserSaga({ email, password, isSignUp }) {
   yield put(actions.authStart());
 
   const authData = { email, password, returnSecureToken: true };
-  let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyCE1zoAXn_sfN2sVUvTszQtfvgsBoPlAM8';
+  let url =
+    'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyCE1zoAXn_sfN2sVUvTszQtfvgsBoPlAM8';
 
   // if not in sign up mode, then..
   if (!isSignUp) {
-    url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyCE1zoAXn_sfN2sVUvTszQtfvgsBoPlAM8'
+    url =
+      'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyCE1zoAXn_sfN2sVUvTszQtfvgsBoPlAM8';
   }
 
   try {
@@ -40,12 +43,10 @@ export function* authUserSaga({ email, password, isSignUp }) {
     yield localStorage.setItem('userId', data.localId);
     yield put(actions.authSuccess(data));
     yield put(actions.checkAuthTimeout(data.expiresIn));
-
   } catch (error) {
     yield put(actions.authFail(error.response.data.error));
   }
 }
-
 
 export function* authCheckStateSaga(action) {
   const token = yield localStorage.getItem('token');

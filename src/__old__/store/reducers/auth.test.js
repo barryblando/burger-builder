@@ -9,26 +9,31 @@ describe('auth reducer', () => {
       error: null,
       loading: false,
       authRedirectPath: '/',
-    })
+    });
   });
 
   test('should store the token upon login', () => {
-    expect(reducer({
-      token: null,
-      userId: null,
-      error: null,
-      loading: false,
-      authRedirectPath: '/',
-    }, {
-      type: actionTypes.AUTH_SUCCESS,
-      idToken: 'some-token',
-      localId: 'some-user-id'
-    })).toEqual({
+    expect(
+      reducer(
+        {
+          token: null,
+          userId: null,
+          error: null,
+          loading: false,
+          authRedirectPath: '/',
+        },
+        {
+          type: actionTypes.AUTH_SUCCESS,
+          idToken: 'some-token',
+          localId: 'some-user-id',
+        }
+      )
+    ).toEqual({
       token: 'some-token',
       userId: 'some-user-id',
       error: null,
       loading: false,
       authRedirectPath: '/',
-    })
-  })
+    });
+  });
 });

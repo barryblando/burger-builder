@@ -1,5 +1,5 @@
-import axios from '../../axios-order';
 import { put, call } from 'redux-saga/effects';
+import axios from '../../axios-order';
 
 import * as actions from '../actions';
 
@@ -13,7 +13,7 @@ export function* initIngredientsSaga(action) {
     const ingredients = { salad, bacon, cheese, meat };
     // TODO - dispatch ingredients
     yield put(actions.setIngredients(ingredients));
-  } catch(e) {
+  } catch (e) {
     // TODO - if can't retrieve endpoint then set error to true
     yield put(actions.fetchIngredientsFailed());
   }
