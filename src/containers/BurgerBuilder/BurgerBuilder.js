@@ -1,63 +1,61 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
+// COMPONENTS
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Modal from '../../components/UI/Modal/Modal';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import axios from '../../axios-order';
 
+// ACTIONS TO DISPATCH
 import * as actions from '../../store/actions/index';
 
 export class BurgerBuilder extends Component {
   state = {
     // purchaseable: false,
     purchasing: false,
+    /* eslint-disable-next-line */
     error: false,
   };
 
   // componentDidMount triggered after execution of the componentWillMount -> render from HOC withErrorHandler
   componentDidMount() {
-    console.log(this.props);
+    const { onInitIngredients } = this.props;
     // initialize ingredients every time this component gets mounted
-    this.props.onInitIngredients();
+    onInitIngredients();
   }
 
   // INFO: arrow function don't have a 'this' so they always lexically inherit 'this' from their enclosing scope (e.g BurgerBuilder)
-  // if didn't find 'this' from enclosing scope (class instance) it will lexically search where enclosing scope delegates/links to,
+  // if didn't find 'this' from enclosing scope (class) it will lexically search where enclosing scope delegates/links to,
   // which in this class is React.Component and that is where setState lives. You don’t have to bind it explicitly.
 
   // TODO -- Handle 'order now' availability state, other way to use componentDidUpdate but performance issues --
-  updatePurchaseState = (ingredients) => {
+  updatePurchaseState = ingredients => {
     const sum = Object.keys(ingredients)
-      .map(igKey => {
-        return ingredients[igKey];
-      })
-      .reduce((sum, el) => {
-        return sum + el;
-      }, 0);
+      .map(igKey => ingredients[igKey])
+      .reduce((total, el) => total + el, 0);
     // set true or false if condition is met or not
     return sum > 0;
-  }
+  };
 
   // TODO -- Handle displaying modal when 'order now' clicked
   purchaseHandler = () => {
     const { isAuthenticated, history, onSetAuthRedirectPath } = this.props;
     if (isAuthenticated) {
+      // show modal with OrderSummary
       this.setState({ purchasing: true });
     } else {
       // push to auth page & set auth redirect path
       onSetAuthRedirectPath('/checkout');
       history.push('/auth');
     }
-  }
+  };
 
   // TODO -- Handle close modal if backdrop clicked --
   purchaseCancelHandler = () => {
     this.setState({ purchasing: false });
-  }
+  };
 
   // TODO -- Handle Order summary 'continue' clicked
   purchaseContinueHandler = () => {
@@ -67,25 +65,19 @@ export class BurgerBuilder extends Component {
     onInitPurchased();
     // What history.push does is it pushes a new entry onto the history stack - aka redirecting the user to another route.
     history.push('/checkout');
-  }
+  };
 
   render() {
     const { purchasing } = this.state;
-    const {
-      ingredients,
-      totalPrice,
-      error,
-      onIngredientAdded,
-      onIngredientRemoved,
-      isAuthenticated
-    } = this.props;
+    const { ingredients, totalPrice, error, onIngredientAdded, onIngredientRemoved, isAuthenticated } = this.props;
 
     const disabledInfo = {
       ...ingredients,
     };
 
     // TODO - mutate ingredients value to boolean and then pass it down to BuildControls, will be disabled by type
-    for (let key in disabledInfo) {
+    /* eslint-disable-next-line */
+    for (const key in disabledInfo) {
       // TODO - check if true then disable the specific ingredient button, e.g { salad: true, meat: false, etc. }
       disabledInfo[key] = disabledInfo[key] <= 0;
     }
@@ -94,7 +86,7 @@ export class BurgerBuilder extends Component {
 
     let burger = error ? <p style={{ textAlign: 'center' }}>Ingredients can't be loaded!</p> : <Spinner />;
 
-    // TODO - if ingredients are all set, then...
+    // TODO - if ingredients are all set, then....
     if (ingredients) {
       burger = (
         <Fragment>
@@ -110,12 +102,14 @@ export class BurgerBuilder extends Component {
           />
         </Fragment>
       );
-      orderSummary = <OrderSummary
-        ingredients={ingredients}
-        price={totalPrice}
-        purchaseCanceled={this.purchaseCancelHandler}
-        purchaseContinued={this.purchaseContinueHandler}
-      />;
+      orderSummary = (
+        <OrderSummary
+          ingredients={ingredients}
+          price={totalPrice}
+          purchaseCanceled={this.purchaseCancelHandler}
+          purchaseContinued={this.purchaseContinueHandler}
+        />
+      );
     }
 
     return (
@@ -129,23 +123,24 @@ export class BurgerBuilder extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    ingredients: state.burgerBuilder.ingredients,
-    totalPrice: state.burgerBuilder.totalPrice,
-    error: state.burgerBuilder.error,
-    isAuthenticated: !!state.auth.token,
-  };
-};
+const mapStateToProps = state => ({
+  ingredients: state.burgerBuilder.ingredients,
+  totalPrice: state.burgerBuilder.totalPrice,
+  error: state.burgerBuilder.error,
+  isAuthenticated: !!state.auth.userId,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onInitIngredients: () => dispatch(actions.initIngredients()),
-    onIngredientAdded: ingName => dispatch(actions.addIngredient(ingName)),
-    onIngredientRemoved: ingName => dispatch(actions.removeIngredient(ingName)),
-    onInitPurchased: () => dispatch(actions.purchaseInit()),
-    onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path))
-  }
-};
+// You can also define as mapDispatchToProps as Object
+// INFO: https://react-redux.js.org/using-react-redux/connect-mapdispatch#defining-mapdispatchtoprops-as-an-object
+const mapDispatchToProps = dispatch => ({
+  onInitIngredients: () => dispatch(actions.initIngredients()),
+  onIngredientAdded: ingName => dispatch(actions.addIngredient(ingName)),
+  onIngredientRemoved: ingName => dispatch(actions.removeIngredient(ingName)),
+  onInitPurchased: () => dispatch(actions.purchaseInit()),
+  onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path)),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BurgerBuilder);
