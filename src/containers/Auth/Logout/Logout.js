@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -15,10 +15,11 @@ class Logout extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onLogout: () => dispatch(actions.logout())
-  }
-};
+const mapDispatchToProps = dispatch => ({
+  onLogout: () => dispatch(actions.logout()),
+});
 
-export default connect(undefined, mapDispatchToProps)(Logout)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(Logout);
