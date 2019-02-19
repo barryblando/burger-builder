@@ -6,7 +6,6 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
 import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
-
   checkoutCancelledHandler = () => {
     const { history } = this.props;
     history.goBack();
@@ -28,13 +27,14 @@ class Checkout extends Component {
       // if ContactData purchase's success & purchased state set to true, then redirect to homepage
       summary = (
         <Fragment>
-          { purchased && <Redirect to="/"/> }
+          {purchased && <Redirect to="/" />}
           <CheckoutSummary
             checkoutCancelled={this.checkoutCancelledHandler}
             checkoutContinued={this.checkoutContinuedHandler}
-            ingredients={ingredients}/>
+            ingredients={ingredients}
+          />
           {/* create relative path, loading this component doesn't re-render whole Checkout page */}
-          <Route path={match.path + '/contact-data'} component={ContactData}/>
+          <Route path={`${match.path}/contact-data`} component={ContactData} />
         </Fragment>
       );
     }
@@ -43,12 +43,9 @@ class Checkout extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    ingredients: state.burgerBuilder.ingredients,
-    purchased: state.order.purchased
-  };
-};
-
+const mapStateToProps = state => ({
+  ingredients: state.burgerBuilder.ingredients,
+  purchased: state.order.purchased,
+});
 
 export default connect(mapStateToProps)(Checkout);
