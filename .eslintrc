@@ -23,7 +23,7 @@
     "no-unused-vars": [
       1,
       {
-        "argsIgnorePattern": "props|res|next|^err"
+        "argsIgnorePattern": "action|props|res|next|^err"
       }
     ],
     "import/no-extraneous-dependencies": [
