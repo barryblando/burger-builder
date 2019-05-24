@@ -32,7 +32,7 @@ strPreProcessor`Hello, ${name}, your order (#${orderNumber}) was $${total}.`; //
 // DECLARATIVE
 function upperCaseStr(strings, ...values) {
   // this is impure reducer, FP Police gonna come after me because of this
-  // INFO: reducer isn't build to go over two lists but this thing I do give me exception
+  // INFO: reducer isn't build to go over two lists but this thing I do.. give me exception
   const processedStrings = strings.reduce((str, currValue, currIndex) => {
     str
     currValue

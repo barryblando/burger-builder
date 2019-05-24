@@ -5,25 +5,23 @@ const disabledInfo = {
   meat: 2,
 };
 
-console.log(Object.keys(disabledInfo).map(igKey => {
-  return disabledInfo[igKey];
-}));
+console.log(Object.keys(disabledInfo).map(igKey => disabledInfo[igKey]));
 
-for (let key in disabledInfo) {
+for (const key in disabledInfo) {
   // check if true then disable the specific ingredient button, i.e { salad: true, meat: false, etc. }
   disabledInfo[key] = disabledInfo[key] <= 0;
-  key // ?
-  disabledInfo // ?
+  key; // ?
+  disabledInfo; // ?
   console.log(disabledInfo[key]);
 }
 
 const enoughDragonSpawned = Math.random() > 0.75; // ?
 
-!enoughDragonSpawned // ?
+!enoughDragonSpawned; // ?
 
 if (!enoughDragonSpawned) {
-  console.log('+1')
-} else  {
+  console.log('+1');
+} else {
   console.log('done');
 }
 
@@ -41,9 +39,9 @@ const arr = [6, 5];
 
 const ingredients = {};
 
-const param = ["salad", "1"]
+const param = ['salad', '1'];
 
-console.log(ingredients[param[0]] = param[1])
+console.log((ingredients[param[0]] = param[1]));
 
 console.log(ingredients);
 
@@ -53,15 +51,38 @@ const updatedIngredients = {
   meat: 1,
 };
 
-[...Array(2)] // ? [ undefined, undefined ]
-const transformedIngredients = Object.keys(updatedIngredients).map(igKey => {
-    return [...Array(updatedIngredients[igKey])].map((_, i) => i) // ?
-  }).reduce((arr, el) => {
+console.log([...Array(updatedIngredients.salad)].map((_, i) => i));
+
+[...Array(2)]; // ? [ undefined, undefined ]
+const transformedIngredients = Object.keys(updatedIngredients)
+  .map(
+    igKey => [...Array(updatedIngredients[igKey])].map((_, i) => i) // ?
+  )
+  .reduce((arr, el) => {
     console.log(...arr);
     console.log(...el);
     console.log([...arr, ...el]);
-    return [...arr, ...el]
+    return [...arr, ...el];
   }, []); // ?
 
 console.log(transformedIngredients);
 
+const arrayFizz = [];
+
+function FizzBuzz(num, arrayBuzz) {
+  for (let i = 0; i < num; i++) {
+    if (i % 3) {
+      arrayBuzz.push({ i, word: 'Fizz' });
+    } else if (i % 5) {
+      arrayBuzz.push({ i, word: 'Buzz' });
+    }
+
+    if (i % 3 && i % 5) {
+      arrayBuzz.push({ i, word: 'FizzBuzz' });
+    }
+  }
+
+  return arrayBuzz;
+}
+
+FizzBuzz(100, arrayFizz); // ?
