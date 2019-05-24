@@ -37,7 +37,7 @@ const todo = () => {
     // Since componentWillUnmount is used for cleaning whatever left behind by your component.
     // It runs BEFORE the main useEffect function runs, but AFTER the (first) render cycle
     // means react will actually execute this as a cleanup before it applies the effect of the main code again
-    // useEffect -> render -> cleanUp -> useEffect -> render
+    // useEffect -> render -!> cleanUp -> useEffect -> render
     return () => {
       console.log('[UseEffect 1: DidUnMount] Clean Up!');
     };

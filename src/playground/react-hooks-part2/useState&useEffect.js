@@ -4,6 +4,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { db } from '../../config/firebaseConfig';
 
 const todo = () => {
+  // INFO: https://blog.linguinecode.com/post/when-to-use-useref-and-uselayouteffect
   // INFO: Hooks Rules - You must only use useState and all other hooks at top level of component function body
   // useState Hook: [state, fn() to update state] = useState('')
   // useState hook is the class setState for function-based components
@@ -29,8 +30,7 @@ const todo = () => {
       });
     // -- effect main code end --
 
-    // returning function here for cleanup work (UnMounting)
-    // It runs BEFORE the main useEffect function runs, but AFTER the (first) render cycle
+    // Returning function here for cleanup work (UnMounting) The clean-up function runs before the component is removed from the UI to prevent memory leaks. Additionally, if a component renders multiple times (as they typically do), the previous effect is cleaned up before executing the next effect. It runs BEFORE the main useEffect function runs, but AFTER the (first) render cycle.
     // means react will actually execute this as a cleanup before it applies the effect of the main code again
     // useEffect -> render -> cleanUp -> useEffect -> render
     return () => {
