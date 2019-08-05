@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // A common pattern in React is for a component to return multiple elements. To fix:
 // (Old Way) create an HOC Aux (self-eradicating component) to wrap adjacent elements
-// (New Way) by Instantiating Fragment wrapping the children elements/components
+// (New Way) by Instantiating Fragment or <></> wrapping the children elements/components
 // Fragments let you group a list of children without adding extra nodes to the DOM (i.e div hell)
 
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
@@ -29,27 +29,17 @@ class Layout extends Component {
     const { children, isAuthenticated } = this.props;
 
     return (
-      <Fragment>
-        <Toolbar
-          isAuth={isAuthenticated}
-          drawerToggleClicked={this.sideDrawerToggleHandler}
-        />
-        <SideDrawer
-          isAuth={isAuthenticated}
-          open={showSideDrawer}
-          closed={this.sideDrawerClosedHandler}/>
-        <main className={classes.Content}>
-          {children}
-        </main>
-      </Fragment>
+      <>
+        <Toolbar isAuth={isAuthenticated} drawerToggleClicked={this.sideDrawerToggleHandler} />
+        <SideDrawer isAuth={isAuthenticated} open={showSideDrawer} closed={this.sideDrawerClosedHandler} />
+        <main className={classes.Content}>{children}</main>
+      </>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: !!state.auth.token
-  };
-};
+const mapStateToProps = state => ({
+  isAuthenticated: !!state.auth.userId,
+});
 
 export default connect(mapStateToProps)(Layout);

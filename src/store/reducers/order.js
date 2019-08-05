@@ -4,7 +4,7 @@ import { updateObject } from '../../utils/index';
 /**
  * INFO: don't use null in order state for now.
  * PROBLEM: when Order container gets mounted and in render execution it uses a .map or any declarative built-in methods, it gets TypeError
- * WHY: componentDidMount gets invoked immediately after a component is mounted (inserted into the tree). Initialization of orders are too late.
+ * WHY: componentDidMount gets invoked after a component is mounted/"rendered" (inserted into the tree). Initialization of orders are too late.
  * TEMP FIX: just use empty data i.e [] / {} 'cause we don't have error state to handle error response.
  */
 

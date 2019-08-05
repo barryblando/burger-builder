@@ -1,5 +1,5 @@
 import firebase from 'firebase/app';
-// import 'firebase/firestore';
+import 'firebase/firestore';
 import 'firebase/database';
 import 'firebase/auth';
 import ReduxSagaFirebase from 'redux-saga-firebase';
@@ -17,8 +17,18 @@ const prodConfig = {};
 
 const config = process.env.NODE_ENV === 'production' ? prodConfig : devConfig;
 
-const reduxSagaFirebase = new ReduxSagaFirebase(firebase.initializeApp(config));
+// const reduxSagaFirebase = new ReduxSagaFirebase(firebase.initializeApp(config));
 
 // firebase.firestore().settings({ timestampsInSnapshots: true });
 
-export { firebase, reduxSagaFirebase as default };
+// export { firebase, reduxSagaFirebase as default };
+
+const hookFirebase = firebase.initializeApp({
+  apiKey: 'AIzaSyALYvsiyX04B1D0aLeLrc4FxqGJKhAP6IA',
+  authDomain: 'react-hooks-de1df.firebaseapp.com',
+  projectId: 'react-hooks-de1df',
+});
+
+const db = hookFirebase.firestore();
+
+export { db, firebase, ReduxSagaFirebase as default };
