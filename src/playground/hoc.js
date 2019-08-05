@@ -38,8 +38,8 @@ render(<AdminInfo isAdmin={false} info="There are the details" />, document.getE
 // -- HOC ? let's say our WrappedComponent is EditExpensePage --
 // const connect = (injectedStateProp, injectedDispatchProp) => {
 //   **CLOSURE&CURRYING**
-//   - we can still have access to variable StateProp & DispatchProp 'cause of scope chain & lexical env
 //   return (WrappedComponent) => {
+//     - we can still have access to variable StateProp & DispatchProp 'cause of closure & lexical env
 //     - props here are values injected by other Component (e.g Router that passes down match prop)
 //     - return function that returns WrappedComponent w/ props to render
 //     return (props) => <WrappedComponent {...injectedStateProp} {...injectedDispatchProp} {...props} />
@@ -55,11 +55,12 @@ render(<AdminInfo isAdmin={false} info="There are the details" />, document.getE
 // 1. Can be pass as an argument
 function createSafeVersion(func) {
   /** CLOSURE & CURRYING - Works with Function **/
+  /* lexical identifiers or name variables sits here */
   // 2. Can be return by a function
   return function(n, message) { //  <== (Lexically Sits!)
     if (n !== null && typeof n === 'number') {
       if (message !== null && typeof message === 'string') {
-        return func(n, message); // Closure is when a function can remember and access its lexical scope even when it's invoked outside its lexical scope., we can access lexical names which are identifiers that are used to name variables (and keywords, and functions, and labels, etc..
+        return func(n, message); // Closure is when a function can remember and access its lexical scope even when it's invoked outside its lexical scope, we can access lexical names which are identifiers that are used to name variables (keywords, functions, etc..)
       }
     }
   }
@@ -125,4 +126,11 @@ async function go(name, last) {
 
 /** CURRYING **/
 const wrappedFunction = catchErrors(go);
-wrappedFunction('Barry', 'Blando')
+wrappedFunction('Barry', 'Blando');
+
+const fibonacciRecursion = function (num) {
+  if (num <= 1) return 1;
+  return fibonacciRecursion(num -1) + fibonacciRecursion(num -2);
+}
+
+fibonacciRecursion(20); /*?.*/

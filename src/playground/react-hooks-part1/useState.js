@@ -5,19 +5,23 @@ import classes from './App.module.scss';
 function Todo({ todo, index, completeTodo, removeTodo }) {
   const style = [classes.todo];
 
-  if(todo.isCompleted) {
-    style.push(classes.isCompleted)
+  if (todo.isCompleted) {
+    style.push(classes.isCompleted);
   }
 
   return (
     <div className={style.join(' ')}>
       {todo.text}
       <div className={classes.todo__buttons}>
-        <button className={classes.button} onClick={() => completeTodo(index)}>Complete</button>
-        <button className={classes.button} onClick={() => removeTodo(index)}>X</button>
+        <button type="button" className={classes.button} onClick={() => completeTodo(index)}>
+          Complete
+        </button>
+        <button type="button" className={classes.button} onClick={() => removeTodo(index)}>
+          X
+        </button>
       </div>
     </div>
-  )
+  );
 }
 
 function TodoForm({ addTodo }) {
@@ -25,10 +29,10 @@ function TodoForm({ addTodo }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    if(!value) return;
+    if (!value) return;
     addTodo(value);
     setValue('');
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -40,11 +44,11 @@ function TodoForm({ addTodo }) {
         onChange={e => setValue(e.target.value)}
       />
     </form>
-  )
+  );
 }
 
 function App() {
-  // state, function to update the state
+  // current state, function to update the state
   const [todoLists, setTodoLists] = useState([
     {
       text: 'Learn about react',
@@ -81,18 +85,13 @@ function App() {
       <div className={classes.container}>
         <div className={classes.todo__list}>
           {todoLists.map((todo, index) => (
-            <Todo
-              key={index}
-              index={index}
-              todo={todo}
-              completeTodo={completeTodo}
-              removeTodo={removeTodo} />
+            <Todo key={todo.text} index={index} todo={todo} completeTodo={completeTodo} removeTodo={removeTodo} />
           ))}
           <TodoForm addTodo={addTodo} />
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default App;

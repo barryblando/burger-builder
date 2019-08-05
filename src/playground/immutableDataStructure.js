@@ -11,7 +11,7 @@ const meal = {
 
 const mealWithCalories = {
   ...meal,
-  calories: 200
+  calories: 200,
 };
 
 console.log(mealWithCalories);
@@ -28,8 +28,7 @@ console.log(mealWithIncreasedCalories);
 
 // 3. In an Immutable way, remove the calories property and log the result to the console
 
-const {calories, ...mealWithOutCalories} = mealWithIncreasedCalories;
-
+const { calories, ...mealWithOutCalories } = mealWithIncreasedCalories;
 
 console.log(mealWithOutCalories);
 
@@ -47,19 +46,16 @@ const updatedFriends = [...friends, 'Dustin'];
 
 // 3. Create a new constant named friendNameLengths, which is based on the array updatedFriends, but instead of having the friends names, have the array store the length of each persons name.
 
-const friendNameLengths = updatedFriends.map(nameToLength);
-
-function nameToLength (name) {
+function nameToLength(name) {
   return name.length;
 }
+
+const friendNameLengths = updatedFriends.map(nameToLength);
 
 // 4. Create a new constant named shorterNamedFriends, which will be a list of the friends except the friends with the longest name.
 const maxFriendLength = Math.max(...friendNameLengths);
 
-const shorterNamedFriends = updatedFriends.filter(
-  function(name){
-    return name.length < maxFriendLength ;
-  });
+const shorterNamedFriends = updatedFriends.filter(name => name.length < maxFriendLength);
 
 // 5. Print each constant to the console.
 

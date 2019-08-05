@@ -16,14 +16,26 @@ import Modal from '../components/UI/Modal/Modal';
 //   .add('with some emoji', () => <Button btnType="Success" clicked={action('clicked')}><span role="img" aria-label="Image">😀 😎 👍 💯</span></Button>);
 
 storiesOf('Button', module)
-  .add('with Success', () => <Button btnType="Success" clicked={action('clicked')}>Submit</Button>)
-  .add('with Error', () => <Button btnType="Danger" clicked={action('clicked')}>Cancel</Button>);
+  .add('with Success', () => (
+    <Button btnType="Success" clicked={action('clicked')}>
+      Submit
+    </Button>
+  ))
+  .add('with Error', () => (
+    <Button btnType="Danger" clicked={action('clicked')}>
+      Cancel
+    </Button>
+  ));
 
 storiesOf('Modal', module)
-  .add('with Data', () => <Modal show={true}>Hello World</Modal>)
+  .add('with Data', () => <Modal show>Hello World</Modal>)
   .add('with Button', () => (
-    <Modal show={true}>
-      <Button btnType="Success" clicked={action('clicked')}>Submit</Button>
-      <Button btnType="Danger" clicked={action('clicked')}>Danger</Button>
+    <Modal show>
+      <Button btnType="Success" clicked={action('clicked')}>
+        Submit
+      </Button>
+      <Button btnType="Danger" clicked={action('clicked')}>
+        Danger
+      </Button>
     </Modal>
-  ))
+  ));

@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 import Modal from '../../components/UI/Modal/Modal';
-import Auxiliary from '../Auxiliary/Auxiliary';
 
 // INFO: https://reactjs.org/docs/higher-order-components.html
-const withErrorHandler = (WrappedComponent, axios) => {
+const withErrorHandler = (WrappedComponent, axios) =>
   // return anonymous class
-  return class extends Component {
+  /* eslint-disable-next-line */
+  class extends Component {
     state = {
       error: null,
-    }
+    };
 
     /**
      * DO:
@@ -21,6 +21,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
      * CONCLUSION:
      *  - intercept requests or responses before they are handled by .then or .catch
      */
+    /* eslint-disable-next-line */
     UNSAFE_componentWillMount() {
       // store the interceptors in properties of class by using 'this' which refer to class
       this.reqInterceptor = axios.interceptors.request.use(req => {
@@ -33,7 +34,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
       this.resInterceptor = axios.interceptors.response.use(
         res => console.log('[withErrorHandler] Interceptor Response: ', res) || res,
         error => {
-          this.setState({ error: error });
+          this.setState({ error });
         }
       );
     }
@@ -60,22 +61,18 @@ const withErrorHandler = (WrappedComponent, axios) => {
     };
 
     render() {
+      const { error } = this.state;
       // Test: Receive props
       console.log('[withErrorHandler] this.props: ', this.props);
 
       return (
-        <Auxiliary>
-          <Modal
-            show={this.state.error}
-            modalClosed={this.errorConfirmedHandler}
-            >
-            {this.state.error ? this.state.error.message : null}
+        <>
+          <Modal show={error} modalClosed={this.errorConfirmedHandler}>
+            {error ? error.message : null}
           </Modal>
           <WrappedComponent {...this.props} />
-        </Auxiliary>
+        </>
       );
     }
-  }
-};
-
+  };
 export default withErrorHandler;

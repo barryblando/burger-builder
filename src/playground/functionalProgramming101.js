@@ -115,18 +115,38 @@ const reviews = [4.5, 4.0, 5.0, 2.0, 1.0, 5.0, 3.0, 4.0, 1.0, 5.0, 4.5, 3.0, 2.5
 const reviewSummary = reviews.reduce((obj, item) => {
   // check if there's object key:value exist or set to zero to work with at all and store it on count
   const count = obj[item] || 0; // ?
-  [item] // ?
-  obj[item] // ?
   // copy all obj then add/update the item that is on queue
   return { ...obj, [item]: count + 1 };
 }, { '4.5': 2 });
 
 console.log(reviewSummary);
-//
 // TIP: checkout computed properties discussed here:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#Computed_property_names
 // solution can be found at:
 // https://jsbin.com/himuzuw/1/edit?js,console
+
+// https://dev.to/_bigblind/quick-tip-transform-an-array-into-an-object-using-reduce-2gh6
+
+const posts = [
+  { id: 0, category: "fairy tales", title: "Gommunist Manifesto" },
+  { id: 1, category: "frontend", title: "All About That Sass" },
+  { id: 2, category: "backend", title: "Beam me up, Scotty: Apache Beam tips" },
+  { id: 3, category: "frontend", title: "Sanitizing HTML: Going antibacterial on XSS attacks" },
+  { id: 4, category: "frontend", title: "All About That Sass" },
+  { id: 5, category: "backend", title: "Beam me up, Scotty: Apache Beam tips" },
+  { id: 6, category: "frontend", title: "Sanitizing HTML: Going antibacterial on XSS attacks" },
+  { id: 7, category: "frontend", title: "All About That Sass" },
+  { id: 8, category: "backend", title: "Beam me up, Scotty: Apache Beam tips" },
+  { id: 9, category: "frontend", title: "Sanitizing HTML: Going antibacterial on XSS attacks" }
+];
+
+const categoryPosts = posts.reduce(
+  (acc, { id, category }) => ({
+    ...acc,
+    [category]: [...(acc[category] || []), id], // initiate w/ empty array at first iteration, cause undefined is not an iterable
+  }),
+  {}
+); // ?
 
 
 // #5 Filter - Get the portion of an array

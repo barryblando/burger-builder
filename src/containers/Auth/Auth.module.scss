@@ -5,10 +5,83 @@
   box-shadow: 0 2px 3px #ccc;
   border: 1px solid #eee;
   padding: 1rem;
+
+  &__facebook, &__google, &__twitter, &__github {
+    color: #fff;
+  }
+
+  &__facebook {
+    background-color: #3b5998;
+  }
+
+  &__google {
+    background-color: #4285F4;
+  }
+
+  &__twitter {
+    background-color: #4099FF;
+  }
+
+  &__github {
+    background-color: #767676;
+  }
 }
+
 
 @media (min-width: 37.5em) {
   .Auth {
+    display: flex;
     width: 80%;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+
+    &__login, &__socialLogin {
+      flex: 1 1 100%;
+    }
+
+    &__login {
+      border-right: 1px solid #ccc;
+    }
+
+    &__socialLogin {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__socialLogin::before {
+      content: 'Or';
+      position: absolute;
+      left: 50.5%;
+      top: 40%;
+      padding: 10px;
+      color: rgb(66, 62, 64);
+      background-color: #ccc;
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+    }
+
+    &__socialLogin__socialHead, &__socialLogin button {
+      align-self: center;
+    }
+
+    &__socialLogin__socialHead {
+      color: rgb(66, 62, 64);
+      height: 20%;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    &__socialLogin button {
+      outline: none;
+      box-shadow: 0px 0px 0px transparent;
+      border: 0px solid transparent;
+      text-shadow: 0px 0px 0px transparent;
+      border-radius: 30px;
+      width: 50%;
+      margin: 5px;
+      padding: 10px;
+    }
   }
 }

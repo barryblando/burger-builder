@@ -1,0 +1,16 @@
+.Orders {
+  margin: 2rem auto;
+  padding: 1rem;
+  width: 31.25rem;
+}
+
+@media (min-width: 37.5em) {
+  .Orders {
+    display: flex;
+    width: 80%;
+
+    &__List, &__BurgerView {
+      flex: 1 1 100%;
+    }
+  }
+}

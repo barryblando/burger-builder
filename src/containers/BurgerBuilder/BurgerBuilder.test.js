@@ -13,7 +13,7 @@ describe('BurgerBuilder Container', () => {
 
   test('should render <BuildControls /> when receiving ingredients', () => {
     wrapper.setProps({
-      ingredients: { salad: 0 }
+      ingredients: { salad: 0 },
     });
     expect(wrapper.find(BuildControls)).toHaveLength(1);
   });
